@@ -481,4 +481,127 @@ Filesystem                Size      Used Available Use% Mounted on
 
 Yup, that's right 3.3 GB of available flash.
 
+## # U-Boot printenv
+
+````
+Bonanza U-Boot > printenv
+bootdelay=1
+baudrate=115200
+netmask=255.255.255.0
+loadaddr=0x10900000
+rd_loadaddr=(0x10900000 + 0x300000)
+bootargs=console=ttymxc1,115200 video=mxcfb0:dev=ldb,1024x600@60,if=RGB666 fbmem=28M vt.global_cursor_default=0 eth=${ethaddr} bt=${btaddr} NoReset hardware_revision=5 ip=off
+bootargs_mmc=set bootargs console=${console} video=${video} eth=${ethaddr} bt=${btaddr} ${resetbutton} boot_image=${boot_image} hardware_revision=${hardware_revision} ip=off
+bootcmd=run bootargs_mmc; run auto_bootcmd
+bootfile=bonanza.combo
+bootflash1=set boot_image 1; run bootargs_mmc; mmc dev 3; mmc read ${loadaddr} ${kernel1blockstart} ${kernel1blockcount}; bootm; || run bootflash2;
+bootflash2=set boot_image 2; run bootargs_mmc; mmc dev 3; mmc read ${loadaddr} ${kernel2blockstart} ${kernel2blockcount}; bootm; || run bootflash1;
+clearenv=mmc dev 3; mmc erargs ${bootargs} ${resetbutton}; run auto_bootcmd
+console=ttymxc1,115200
+envblockcount=200
+envblockstart=1000
+ethprime=FEC0
+fdt_high=0xffffffff
+hardware_revision=5
+initrd_high=0xffffffff
+kernel1blockcount=10000
+kernel1blockstart=1200
+kernel2blockcount=10000
+kernel2blockstart=11400
+lvds_num=0
+netdev=eth0
+netmask=255.255.255.0
+reset_bootargs=set bootargs console=${console} video=${video} eth=${ethaddr} bt=${btaddr} hardware_revision=${hardware_revision} ip=off; saveenv
+splashimage=10800000
+splashpos=0,0
+ubootblockcount=1000
+ubootblockstart=0
+video=mxcfb0:dev=ldb,1024x600@60,if=RGB666 fbmem=28M vt.global_cursor_default=0
+ethact=FEC0
+ethaddr=48:65:EE:24:70:CC
+btaddr=48:65:EE:24:70:CD
+serverip=192.168.1.107
+ipaddr=192.168.1.88
+gatewayip=192.168.1.1
+stdin=serial
+stdout=serial
+stderr=serial
+resetbutton=NoReset
+auto_bootcmd=set boot_image 2; run bootargs_mmc; mmc dev 3; mmc read ${loadaddr} ${kernel2blockstart} ${kernel2blockcount}; bootm; || run bootflash1;
+
+Environment size: 1808/8188 bytes
+Bonanza U-Boot > 
+````
+
+## U-Boot help
+
+````
+Bonanza U-Boot > help
+?       - alias for 'help'
+autoscr - DEPRECATED - use "source" command instead
+base    - print or set address offset
+bdinfo  - print Board Info structure
+bmp     - manipulate BMP image data
+boot    - boot default, i.e., run 'bootcmd'
+bootd   - boot default, i.e., run 'bootcmd'
+bootm   - boot application image from memory
+bootp   - boot image via network using BOOTP/TFTP protocol
+clk     - Clock sub system
+cls     - clear screen
+cmp     - memory compare
+coninfo - print console devices and information
+cp      - memory copy
+crc32   - checksum calculation
+destroyenv- destroy enviroment variables stored in medium
+dhcp    - boot image via network using DHCP/TFTP protocol
+download_mode- download_mode - enter i.MX serial/usb download mode
+echo    - echo args to console
+erase   - erase FLASH memory
+exit    - exit script
+ext2load- load binary file from a Ext2 filesystem
+ext2ls  - list files in a directory (default /)
+fatinfo - print information about filesystem
+fatload - load binary file from a dos filesystem
+fatls   - list files in a directory (default /)
+flinfo  - print FLASH memory information
+go      - start application at address 'addr'
+help    - print online help
+i2c     - I2C sub-system
+iminfo  - print header information for application image
+imxotp  - One-Time Programable sub-system
+imxtract- extract a part of a multi-image
+itest   - return true/false on integer compare
+loadb   - load binary file over serial line (kermit mode)
+loads   - load S-Record file over serial line
+loady   - load binary file over serial line (ymodem mode)
+loop    - infinite loop on address range
+md      - memory display
+mii     - MII utility commands
+mm      - memory modify (auto-incrementing address)
+mmc     - MMC sub system
+mmcinfo - display MMC info
+mtest   - simple RAM read/write test
+mw      - memory write (fill)
+nfs     - boot image via network using NFS protocol
+nm      - memory modify (constant address)
+ping    - send ICMP ECHO_REQUEST to network host
+printenv- print environment variables
+protect - enable or disable FLASH write protection
+rarpboot- boot image via network using RARP/TFTP protocol
+regul   - Regulator sub system
+reset   - Perform RESET of the CPU
+run     - run commands in an environment variable
+saveenv - save environment variables to persistent storage
+setenv  - set environment variables
+sf      - SPI flash sub-system
+showvar - print local hushshell variables
+sleep   - delay execution for some time
+source  - run script from memory
+sspi    - SPI utility commands
+test    - minimal test like /bin/sh
+tftpboot- boot image via network using TFTP protocol
+version - print monitor version
+Bonanza U-Boot > 
+````
+
 
